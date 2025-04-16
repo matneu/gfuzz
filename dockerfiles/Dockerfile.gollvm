@@ -33,8 +33,10 @@ RUN apt update && apt install -y ninja-build &&\
 ENV LD_LIBRARY_PATH=/build-debug/tools/gollvm/libgo
 
 ADD scripts/build/gollvm.patch /tmp/
+ADD scripts/build/gollvm_mpfr.patch /tmp/
 RUN cd /llvm-project && git checkout 96b0b9a5e &&\
     cd llvm/tools/gollvm && git checkout d30fc0bf &&\
+    git apply /tmp/gollvm_mpfr.patch &&\
     cd gofrontend && git checkout ae20684902 &&\
     git apply /tmp/gollvm.patch &&\
     cd ../libgo/libffi && git checkout 8111cd0692 &&\
